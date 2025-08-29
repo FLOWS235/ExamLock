@@ -58,7 +58,6 @@ namespace ExamLock
 
             // Güvenlik kontrolleri
             if (!SecurityGuards.CheckSecondMonitorAndWarn()) { Logger.Log("second_monitor_detected"); return; }
-            if (!SecurityGuards.CheckVmAndWarn()) { Logger.Log("vm_detected"); return; }if (!SecurityGuards.CheckSecondMonitorAndWarn()) { Logger.Log("second_monitor_detected"); return; }
 			if (!SecurityGuards.CheckVmAndWarn(cfg.AllowVm)) // <-- AllowVm
 			{
 				Logger.Log("vm_detected");
@@ -117,3 +116,4 @@ namespace ExamLock
 
     // AppConfig, WhitelistService, HardwareIdService -> aynen mevcut projendeki gibi kalsın
 }
+
