@@ -69,25 +69,6 @@ namespace ExamLock
             center.Controls.Add(txtPass, 1, 1);
             center.Controls.Add(btnEnter, 1, 2);
 
-            // Kısa kurallar (alt bilgi)
-            var rules = new Label
-            {
-                AutoSize = true,
-                MaximumSize = new Size(900, 0),
-                Font = new Font("Segoe UI", 9),
-                ForeColor = Color.DimGray,
-                Text =
-"Belangrijke regels (samengevat):\n" +
-"• Breng een geldig identiteitsbewijs mee en kom tijdig aan.\n" +
-"• Het examen verloopt in het Nederlands; volg alle instructies nauwgezet.\n" +
-"• Verboden in het lokaal: gsm/smartphone, smartwatch, oortjes, camera’s en niet-toegelaten hulpmiddelen.\n" +
-"• Alleen toegelaten materiaal gebruiken; je krijgt standaard hulpmiddelen in het digitale platform.\n" +
-"• Tijdens de middagpauze verlaat je het lokaal; wees tijdig terug.\n" +
-"• Je mag een doorzichtige waterfles meenemen; uitzonderingen kunnen gelden bij hittemaatregelen.\n" +
-"• Je kan een onderdeel niet voortijdig beëindigen; het examen sluit automatisch bij tijdsoverschrijding."
-            };
-            outer.Controls.Add(rules, 1, 2);
-
             // Alt sağ: HW hash
             var lblHw = new Label
             {
@@ -106,7 +87,7 @@ namespace ExamLock
 
             AcceptButton = btnEnter;
 
-            btnEnter.Click += (s, e) =>
+            btnEnter.Click += async (s, e) =>
             {
                 var user = txtUser.Text.Trim();
                 if (string.IsNullOrEmpty(user))
@@ -115,6 +96,9 @@ namespace ExamLock
                     return;
                 }
                 Logger.Log("login_success", user);
+
+                // ---- HOST (sunucu) IP: 192.168.137.1 ----
+                await HubClient.ConnectAsync("http://192.168.137.1:5000", _hwHash, user);
 
                 using var clip = new ClipboardGuard(); // Pano engeli sınav boyunca
                 using var exam = new ExamForm(user, System.TimeSpan.FromMinutes(30)); // 30 dk
