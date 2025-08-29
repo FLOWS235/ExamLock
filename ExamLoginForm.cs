@@ -98,7 +98,7 @@ namespace ExamLock
                 Logger.Log("login_success", user);
 
                 // ---- HOST (sunucu) IP: 192.168.137.1 ----
-                await HubClient.ConnectAsync("http://192.168.137.1:5000", _hwHash, user);
+                //await HubClient.ConnectAsync("http://192.168.137.1:5000", _hwHash, user);
 
                 using var clip = new ClipboardGuard(); // Pano engeli sınav boyunca
                 using var exam = new ExamForm(user, System.TimeSpan.FromMinutes(30)); // 30 dk
@@ -123,3 +123,4 @@ namespace ExamLock
         }
     }
 }
+
